@@ -454,7 +454,7 @@ class LogisticRegression extends ModelFields {
            $coefficients = $this->get_coefficients($category, $field_id);
            if (!array_key_exists($field_id, $unique_terms) or !$unique_terms[$field_id]) {
 	      $norm2 += 1;
-              if (!array_key_exists($field_id, $this->field_codings) or array_keys($this->field_codings->{$field_id})[0] == "dummy" )  {
+              if (!property_exists($this->field_codings, $field_id) or array_keys($this->field_codings->{$field_id})[0] == "dummy" )  {
                 $probability += $coefficients[count($value)];
               } else {
                 # codings are given as arrays of coefficients. The
@@ -521,7 +521,7 @@ class LogisticRegression extends ModelFields {
           # field coding.
 
           if ($optype != 'categorical' or
-              !array_key_exists($field_id, $this->field_codings) or
+              !property_exists($this->field_codings, $field_id) or
               array_keys($this->field_codings->{$field_id})[0] == "dummy") {
              $length = count($this->fields->{$field_id}->summary->{json_decode(EXPANSION_ATTRIBUTES, true)[$optype]});
              $length += 1;

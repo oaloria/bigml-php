@@ -459,7 +459,7 @@ class Ensemble {
          $check_importance = true;
          $importances = array();
          foreach($this->distributions as $distribution) {
-	    if (array_key_exists('importance', $distribution)) {
+	    if (property_exists($distribution, 'importance')) {
                array_push($importances, $distribution->importance);
             } else {
 	       $check_importance = false;

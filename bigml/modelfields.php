@@ -34,11 +34,11 @@ function strip_affixes($value, $field)
       $value = mb_convert_encoding($value, "UTF-8");
    }
 
-   if (array_key_exists('prefix', $field) && substr( $field->prefix, 0, 6 ) === "prefix") {
+   if (property_exists($field, 'prefix') && substr( $field->prefix, 0, 6 ) === "prefix") {
       $value=substr($value, 6);
    }
 
-   if (array_key_exists('suffix', $field) && endsWith($field->suffix, "suffix")) {
+   if (property_exists($field, 'suffix') && endsWith($field->suffix, "suffix")) {
       $value=substr($value, 0, -6);
    }
 

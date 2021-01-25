@@ -199,7 +199,7 @@ class Item {
     } else if ($field_type = "text") {
       $all_forms = array_key_exists("term_forms", $this->field_info->summary) ?  
                    $this->field_info->summary : array();
-      $term_forms =  array_key_exists($this->name, $all_forms) ?  $all_forms->{$this->name} : array();
+      $term_forms =  property_exists($all_forms, $this->name) ?  $all_forms->{$this->name} : array();
       $terms = array_merge(array($this->name), $term_forms);
       $options = $this->field_info->term_analysis; 
       $result = term_matches($value, $terms, $options) > 0;

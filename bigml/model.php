@@ -278,7 +278,7 @@ class Model extends BaseModel{
                 if ($add_next) {
                     $field = (count($prediction->children) == 0 ? null : $prediction->children[0]->predicate->field);
 
-                    if ($field != null && array_key_exists($field, $this->fields) ) {
+                    if ($field != null && property_exists($this->fields, $field) ) {
                         $field = $this->fields->{$field}->name;
                     }
 
@@ -547,7 +547,7 @@ class Model extends BaseModel{
             array_push($path, $tree->predicate);
             if ($tree->predicate->term) {
                 $term = $tree->predicate->term;
-                if (!array_key_exists($tree->predicate->field, $this->terms)) {
+                if (!property_exists($this->terms, $tree->predicate->field)) {
                     $this->terms->{$tree->predicate->field} = array();
                 }
 

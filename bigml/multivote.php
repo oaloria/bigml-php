@@ -258,7 +258,7 @@ class MultiVote {
       if (property_exists($instance, 'predictions') && $instance->predictions != null && $with_confidence==true) {
 
          foreach($instance->predictions as $prediction) {
-            if (!array_key_exists('confidence', $prediction)) {
+            if (!property_exists($prediction, 'confidence')) {
                throw new \Exception('Not enough data to use the selected prediction method. Try creating your model anew.');
             }
          }
@@ -453,7 +453,7 @@ class MultiVote {
       if (property_exists($this, 'predictions') ) {
 
          foreach($this->predictions as $prediction) {
-            if (!array_key_exists('confidence', $prediction)) {
+            if (!property_exists($prediction, 'confidence')) {
                throw new \Exception('Not enough data to use the selected prediction method. Try creating your model anew.');
             }
             array_push($error_values, $prediction->confidence);
@@ -528,7 +528,7 @@ class MultiVote {
       if ($keys != null && (!$probabilities)) {
          foreach($keys as $key) {
             foreach($this->predictions as $prediction) {
-               if (!array_key_exists($key, $prediction)) {
+               if (!property_exists($prediction, $key)) {
                   throw new \Exception('Not enough data to use the selected prediction method. Try creating your model anew.');
                }
             }
@@ -678,7 +678,7 @@ class MultiVote {
       $predictions = array();
       foreach($this->predictions as $prediction) {
 
-         if (!array_key_exists("distribution", $prediction) || !array_key_exists("count", $prediction) ) {
+         if (!property_exists($prediction, "distribution") || !property_exists($prediction, "count") ) {
             throw new \Exception("Probability weighting is not available because distribution information is missing.");
          }
 
@@ -733,7 +733,7 @@ class MultiVote {
                throw new \Exception("Wrong weight_label value.");
             }
 
-            if (!array_key_exists($weight_label, $prediction)) {
+            if (!property_exists($prediction, $weight_label)) {
                throw new \Exception("Not enough data to use the selected prediction method. Try creating your model anew");
             } else {
                $weight = is_object($prediction) ? $prediction->{$weight_label} : $prediction[$weight_label];
@@ -768,7 +768,7 @@ class MultiVote {
       $prediction = key($mode);
 
       if ($with_confidence or $add_confidence) {
-         if (array_key_exists('confidence', $this->predictions[0])) {
+         if (property_exists($this->predictions[0], 'confidence')) {
             return $this->weighted_confidence($prediction, $weight_label);
          } else {
             $combined_distribution = $this->combine_distribution();
@@ -826,7 +826,7 @@ class MultiVote {
       $total = 0;
 
       foreach($this->predictions as $prediction) {
-         if (!array_key_exists($weight_label, $prediction)) {
+         if (!property_exists($prediction, $weight_label)) {
              throw new \Exception("Not enough data to use the selected prediction method. Try creating your model anew.");
          }
 
@@ -861,7 +861,7 @@ class MultiVote {
       foreach($this->predictions as $prediction) {
          if ($prediction->prediction == $combined_prediction) {
             array_push($predictions, $prediction);
-            if ($check_confidence_and_weight_label==true && (!array_key_exists($weight_label, $prediction) || !array_key_exists('confidence', $prediction)) ) {
+            if ($check_confidence_and_weight_label==true && (!property_exists($prediction, $weight_label) || !property_exists($prediction, 'confidence')) ) {
                $check_confidence_and_weight_label=false;
             }
          }

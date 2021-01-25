@@ -411,7 +411,7 @@ class Fields {
      */
      $result = array();
      foreach($this->fields as $key => $value) {
-        if (!array_key_exists("preferred", $value) || ($value->preferred != null)) {
+        if (!property_exists($value, "preferred") || ($value->preferred != null)) {
            $result[$key] = $value;
         }
      }   
@@ -425,7 +425,7 @@ class Fields {
       */
       if (is_array($input_data)) {
          foreach($input_data as $name => $value) {
-           if (array_key_exists($name, $this->fields_by_name)) {
+           if (property_exists($this->fields_by_name, $name)) {
               $a = "[" . $name  . str_repeat(utf8_encode(' '), 32) . ":" . gettype($input_data->{$name}) . str_repeat(utf8_encode(' '), 16) . ":" . $this->fields->{$this->fields_by_name{$name}}->optype . str_repeat(utf8_encode(' '), 16) . ":";
 
               if (in_array(gettype($input_data->{$name}), php_map_type($this->fields->{$this->fields_by_name->{$name}}->optype) )) {
@@ -483,7 +483,7 @@ class Fields {
        
       $field_id = $this->field_id($field_name);
 
-      if (array_key_exists("summary", $this->fields->{$field_id})) {
+      if (property_exists($this->fields->{$field_id}, "summary")) {
          return $this->fields->{$field_id}->summary;
       }
 
